@@ -242,11 +242,14 @@ void EGOReplanFSM::execFSMCallback(const ros::TimerEvent &e)
             // start_yaw_(1) = start_yaw_(2) = 0.0;
 
             bool flag_random_poly_init;
-            if (timesOfConsecutiveStateCalls().first == 1)
+            // 第一次切换到这个状态
+            if (timesOfConsecutiveStateCalls().first == 1) {
                 flag_random_poly_init = false;
-            else
+            } else  // 非一次切换到这个状态
+            {
                 flag_random_poly_init = true;
-
+            }
+            // 调用重规划
             bool success = callReboundReplan(true, flag_random_poly_init);
             if (success) {
                 changeFSMExecState(EXEC_TRAJ, "FSM");
@@ -382,6 +385,7 @@ void EGOReplanFSM::checkCollisionCallback(const ros::TimerEvent &e)
 
 bool EGOReplanFSM::callReboundReplan(bool flag_use_poly_init, bool flag_randomPolyTraj)
 {
+    // 更新 local_target_pt_ 和 local_target_vel_
     getLocalTarget();
 
     bool plan_success = planner_manager_->reboundReplan(
@@ -484,6 +488,7 @@ void EGOReplanFSM::getLocalTarget()
             dist_min_t = t;
         }
         if (dist >= planning_horizen_) {
+            // 在全局轨迹上截取局部目标点
             local_target_pt_ = pos_t;
             planner_manager_->global_data_.last_progress_time_ = dist_min_t;
             break;

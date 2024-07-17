@@ -101,7 +101,7 @@ void GridMap::initMap(ros::NodeHandle &nh)
 
     depth_sub_.reset(new message_filters::Subscriber<sensor_msgs::Image>(
         node_, "/grid_map/depth", 50));
-
+    // 以下两个分支均未进入
     if (mp_.pose_type_ == POSE_STAMPED) {
         pose_sub_.reset(new message_filters::Subscriber<geometry_msgs::PoseStamped>(
             node_, "/grid_map/pose", 25));
@@ -121,6 +121,7 @@ void GridMap::initMap(ros::NodeHandle &nh)
     }
 
     // use odometry and point cloud
+    // TODO: 订阅的点云在 world 世界坐标系下描述 -> 传感器坐标系下描述
     indep_cloud_sub_ = node_.subscribe<sensor_msgs::PointCloud2>(
         "/grid_map/cloud", 10, &GridMap::cloudCallback, this);
     indep_odom_sub_ = node_.subscribe<nav_msgs::Odometry>(

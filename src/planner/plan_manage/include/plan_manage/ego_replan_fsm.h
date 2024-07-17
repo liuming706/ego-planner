@@ -26,6 +26,7 @@ class EGOReplanFSM
 {
 private:
     /* ---------- flag ---------- */
+    // FSM 有限状态机 (finite state machine)
     enum FSM_EXEC_STATE {
         INIT,
         WAIT_TARGET,
