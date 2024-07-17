@@ -321,13 +321,14 @@ Maps::recursiveDivision(int xl, int xh, int yl, int yh, Eigen::MatrixXi& maze)
 
   else if (xl < xh - 2 && yl < yh - 2)
   {
-    // bool valid     = false; // used to judge whether the wall selection is valid
-    int  xm        = 0;
-    int  ym        = 0;
-    int  doorcount = 0;
-    xm             = (std::rand() % (xh - xl - 1) + xl +
+    // bool valid     = false; // used to judge whether the wall selection is
+    // valid
+    int xm        = 0;
+    int ym        = 0;
+    int doorcount = 0;
+    xm            = (std::rand() % (xh - xl - 1) + xl +
           1); // generating random number between xl+1 and xh-1(pointless to
-                          // add a wall at the sides)
+                         // add a wall at the sides)
     ym =
       (std::rand() % (yh - yl - 1) + yl +
        1); // generating random number between yl+1 and yh-1(pointless to

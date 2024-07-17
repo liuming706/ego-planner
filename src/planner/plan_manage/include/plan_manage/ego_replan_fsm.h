@@ -20,29 +20,21 @@
 
 using std::vector;
 
-namespace ego_planner
+namespace ego_planner {
+
+class EGOReplanFSM
 {
-
-  class EGOReplanFSM
-  {
-
-  private:
+private:
     /* ---------- flag ---------- */
-    enum FSM_EXEC_STATE
-    {
-      INIT,
-      WAIT_TARGET,
-      GEN_NEW_TRAJ,
-      REPLAN_TRAJ,
-      EXEC_TRAJ,
-      EMERGENCY_STOP
+    enum FSM_EXEC_STATE {
+        INIT,
+        WAIT_TARGET,
+        GEN_NEW_TRAJ,
+        REPLAN_TRAJ,
+        EXEC_TRAJ,
+        EMERGENCY_STOP
     };
-    enum TARGET_TYPE
-    {
-      MANUAL_TARGET = 1,
-      PRESET_TARGET = 2,
-      REFENCE_PATH = 3
-    };
+    enum TARGET_TYPE { MANUAL_TARGET = 1, PRESET_TARGET = 2, REFENCE_PATH = 3 };
 
     /* planning utils */
     EGOPlannerManager::Ptr planner_manager_;
@@ -50,7 +42,7 @@ namespace ego_planner
     ego_planner::DataDisp data_disp_;
 
     /* parameters */
-    int target_type_; // 1 mannual select, 2 hard code
+    int target_type_;  // 1 mannual select, 2 hard code
     double no_replan_thresh_, replan_thresh_;
     double waypoints_[50][3];
     int waypoint_num_;
@@ -62,12 +54,13 @@ namespace ego_planner
     FSM_EXEC_STATE exec_state_;
     int continously_called_times_{0};
 
-    Eigen::Vector3d odom_pos_, odom_vel_, odom_acc_; // odometry state
+    Eigen::Vector3d odom_pos_, odom_vel_, odom_acc_;  // odometry state
     Eigen::Quaterniond odom_orient_;
 
-    Eigen::Vector3d init_pt_, start_pt_, start_vel_, start_acc_, start_yaw_; // start state
-    Eigen::Vector3d end_pt_, end_vel_;                                       // goal state
-    Eigen::Vector3d local_target_pt_, local_target_vel_;                     // local target state
+    Eigen::Vector3d init_pt_, start_pt_, start_vel_, start_acc_,
+        start_yaw_;                                       // start state
+    Eigen::Vector3d end_pt_, end_vel_;                    // goal state
+    Eigen::Vector3d local_target_pt_, local_target_vel_;  // local target state
     int current_wp_;
 
     bool flag_escape_emergency_;
@@ -79,8 +72,9 @@ namespace ego_planner
     ros::Publisher replan_pub_, new_pub_, bspline_pub_, data_disp_pub_;
 
     /* helper functions */
-    bool callReboundReplan(bool flag_use_poly_init, bool flag_randomPolyTraj); // front-end and back-end method
-    bool callEmergencyStop(Eigen::Vector3d stop_pos);                          // front-end and back-end method
+    bool callReboundReplan(bool flag_use_poly_init,
+                           bool flag_randomPolyTraj);  // front-end and back-end method
+    bool callEmergencyStop(Eigen::Vector3d stop_pos);  // front-end and back-end method
     bool planFromCurrentTraj();
 
     /* return value: std::pair< Times of the same state be continuously called, current continuously called state > */
@@ -99,19 +93,15 @@ namespace ego_planner
 
     bool checkCollision();
 
-  public:
-    EGOReplanFSM(/* args */)
-    {
-    }
-    ~EGOReplanFSM()
-    {
-    }
+public:
+    EGOReplanFSM(/* args */) {}
+    ~EGOReplanFSM() {}
 
     void init(ros::NodeHandle &nh);
 
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-  };
+};
 
-} // namespace ego_planner
+}  // namespace ego_planner
 
 #endif

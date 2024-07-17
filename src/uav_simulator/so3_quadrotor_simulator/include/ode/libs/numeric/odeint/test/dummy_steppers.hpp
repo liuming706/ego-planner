@@ -14,7 +14,6 @@
  copy at http://www.boost.org/LICENSE_1_0.txt)
  */
 
-
 #ifndef BOOST_LIBS_NUMERIC_ODEINT_TEST_DUMMY_STEPPER_HPP_INCLUDED
 #define BOOST_LIBS_NUMERIC_ODEINT_TEST_DUMMY_STEPPER_HPP_INCLUDED
 
@@ -26,81 +25,70 @@ namespace boost {
 namespace numeric {
 namespace odeint {
 
-struct dummy_stepper
-{
+struct dummy_stepper {
     typedef double value_type;
     typedef value_type time_type;
-    typedef boost::array< value_type , 1 > state_type;
+    typedef boost::array<value_type, 1> state_type;
     typedef state_type deriv_type;
     typedef unsigned short order_type;
     typedef stepper_tag stepper_category;
 
-    order_type order( void ) const { return 1; }
+    order_type order(void) const { return 1; }
 
-    template< class System >
-    void do_step( System sys , state_type &x , time_type t , time_type dt ) const
+    template <class System>
+    void do_step(System sys, state_type &x, time_type t, time_type dt) const
     {
         x[0] += 0.25;
     }
 };
 
-struct dummy_dense_output_stepper
-{
+struct dummy_dense_output_stepper {
     typedef double value_type;
     typedef value_type time_type;
-    typedef boost::array< value_type , 1 > state_type;
+    typedef boost::array<value_type, 1> state_type;
     typedef state_type deriv_type;
     typedef dense_output_stepper_tag stepper_category;
 
-    void initialize( const state_type &x0 , time_type t0 , time_type dt0 )
+    void initialize(const state_type &x0, time_type t0, time_type dt0)
     {
         m_x = x0;
         m_t = t0;
         m_dt = dt0;
     }
 
-    template< class System >
-    std::pair< time_type , time_type > do_step( System sys )
+    template <class System>
+    std::pair<time_type, time_type> do_step(System sys)
     {
         m_x[0] += 0.25;
         m_t += m_dt;
-        return std::make_pair( m_t - m_dt , m_t );
+        return std::make_pair(m_t - m_dt, m_t);
     }
 
-    void calc_state( time_type t_inter , state_type &x ) const
+    void calc_state(time_type t_inter, state_type &x) const
     {
-        value_type theta = ( m_t - t_inter ) / m_dt;
+        value_type theta = (m_t - t_inter) / m_dt;
         x[0] = m_x[0] - 0.25 * theta;
-        
     }
 
-    const time_type& current_time( void ) const
-    {
-        return m_t;
-    }
+    const time_type &current_time(void) const { return m_t; }
 
-    const state_type& current_state( void ) const
-    {
-        return m_x;
-    }
+    const state_type &current_state(void) const { return m_x; }
 
     state_type m_x;
     time_type m_t;
     time_type m_dt;
 };
 
-
-
-struct dummy_controlled_stepper
-{
+struct dummy_controlled_stepper {
     typedef double value_type;
     typedef value_type time_type;
-    typedef boost::array< value_type , 1 > state_type;
+    typedef boost::array<value_type, 1> state_type;
     typedef state_type deriv_type;
     typedef controlled_stepper_tag stepper_category;
 
-    template< class Sys >
-    controlled_step_result try_step( Sys sys , state_type &x , time_type &t , time_type &dt ) const
+    template <class Sys>
+    controlled_step_result try_step(Sys sys, state_type &x, time_type &t,
+                                    time_type &dt) const
     {
         x[0] += 0.25;
         t += dt;
@@ -108,10 +96,8 @@ struct dummy_controlled_stepper
     }
 };
 
+}  // namespace odeint
+}  // namespace numeric
+}  // namespace boost
 
-} // odeint
-} // numeric
-} // boost
-
-
-#endif // BOOST_LIBS_NUMERIC_ODEINT_TEST_DUMMY_STEPPER_HPP_INCLUDED
+#endif  // BOOST_LIBS_NUMERIC_ODEINT_TEST_DUMMY_STEPPER_HPP_INCLUDED

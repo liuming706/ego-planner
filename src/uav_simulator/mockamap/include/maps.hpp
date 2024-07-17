@@ -9,65 +9,67 @@
 
 namespace mocka {
 
-class Maps {
+class Maps
+{
 public:
-  typedef struct BasicInfo {
-    ros::NodeHandle *nh_private;
-    int sizeX;
-    int sizeY;
-    int sizeZ;
-    int seed;
-    double scale;
-    sensor_msgs::PointCloud2 *output;
-    pcl::PointCloud<pcl::PointXYZ> *cloud;
-  } BasicInfo;
+    typedef struct BasicInfo {
+        ros::NodeHandle *nh_private;
+        int sizeX;
+        int sizeY;
+        int sizeZ;
+        int seed;
+        double scale;
+        sensor_msgs::PointCloud2 *output;
+        pcl::PointCloud<pcl::PointXYZ> *cloud;
+    } BasicInfo;
 
-  BasicInfo getInfo() const;
-  void setInfo(const BasicInfo &value);
-
-public:
-  Maps();
+    BasicInfo getInfo() const;
+    void setInfo(const BasicInfo &value);
 
 public:
-  void generate(int type);
+    Maps();
+
+public:
+    void generate(int type);
 
 private:
-  BasicInfo info;
+    BasicInfo info;
 
 private:
-  void pcl2ros();
+    void pcl2ros();
 
-  void perlin3D();
-  void maze2D();
-  void randomMapGenerate();
-  void Maze3DGen();
-  void recursiveDivision(int xl, int xh, int yl, int yh, Eigen::MatrixXi &maze);
-  void recursizeDivisionMaze(Eigen::MatrixXi &maze);
-  void optimizeMap();
+    void perlin3D();
+    void maze2D();
+    void randomMapGenerate();
+    void Maze3DGen();
+    void recursiveDivision(int xl, int xh, int yl, int yh, Eigen::MatrixXi &maze);
+    void recursizeDivisionMaze(Eigen::MatrixXi &maze);
+    void optimizeMap();
 };
 
-class MazePoint {
+class MazePoint
+{
 private:
-  pcl::PointXYZ point;
-  double dist1;
-  double dist2;
-  int point1;
-  int point2;
-  bool isdoor;
+    pcl::PointXYZ point;
+    double dist1;
+    double dist2;
+    int point1;
+    int point2;
+    bool isdoor;
 
 public:
-  pcl::PointXYZ getPoint();
-  int getPoint1();
-  int getPoint2();
-  double getDist1();
-  double getDist2();
-  void setPoint(pcl::PointXYZ p);
-  void setPoint1(int p);
-  void setPoint2(int p);
-  void setDist1(double set);
-  void setDist2(double set);
+    pcl::PointXYZ getPoint();
+    int getPoint1();
+    int getPoint2();
+    double getDist1();
+    double getDist2();
+    void setPoint(pcl::PointXYZ p);
+    void setPoint1(int p);
+    void setPoint2(int p);
+    void setDist1(double set);
+    void setDist2(double set);
 };
 
-} // namespace mocka
+}  // namespace mocka
 
-#endif // MAPS_HPP
+#endif  // MAPS_HPP

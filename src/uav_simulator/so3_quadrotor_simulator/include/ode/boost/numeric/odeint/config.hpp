@@ -3,8 +3,8 @@
  boost/numeric/odeint/config.hpp
 
  [begin_description]
- Sets configurations for odeint and used libraries. Should be included before any other odeint library
- [end_description]
+ Sets configurations for odeint and used libraries. Should be included before
+ any other odeint library [end_description]
 
  Copyright 2009-2011 Karsten Ahnert
  Copyright 2009-2011 Mario Mulansky
@@ -17,15 +17,15 @@
 #ifndef BOOST_NUMERIC_ODEINT_CONFIG_HPP_INCLUDED
 #define BOOST_NUMERIC_ODEINT_CONFIG_HPP_INCLUDED
 
-//increase macro variable to allow rk78 scheme
+// increase macro variable to allow rk78 scheme
 #ifndef FUSION_MAX_VECTOR_SIZE
 #define FUSION_MAX_VECTOR_SIZE 15
 #endif
 
 /*
- * the following definitions are only required if fusion vectors are used as state types
- * in the rk78 scheme
- * they should be defined by the user if required, see e.g. libs/numeric/examples/harmonic_oscillator_units.cpp
+ * the following definitions are only required if fusion vectors are used as
+ * state types in the rk78 scheme they should be defined by the user if
+ * required, see e.g. libs/numeric/examples/harmonic_oscillator_units.cpp
  */
 #ifndef BOOST_FUSION_INVOKE_MAX_ARITY
 #define BOOST_FUSION_INVOKE_MAX_ARITY 15
@@ -43,5 +43,4 @@
 #define BOOST_NUMERIC_ODEINT_CXX11 1
 #endif
 
-
-#endif // BOOST_NUMERIC_ODEINT_CONFIG_HPP_INCLUDED
+#endif  // BOOST_NUMERIC_ODEINT_CONFIG_HPP_INCLUDED

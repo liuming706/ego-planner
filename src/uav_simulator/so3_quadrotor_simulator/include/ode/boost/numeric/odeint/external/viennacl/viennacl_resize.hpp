@@ -14,7 +14,6 @@
  copy at http://www.boost.org/LICENSE_1_0.txt)
  */
 
-
 #ifndef BOOST_NUMERIC_ODEINT_EXTERNAL_VIENNACL_VIENNACL_RESIZE_HPP_INCLUDED
 #define BOOST_NUMERIC_ODEINT_EXTERNAL_VIENNACL_VIENNACL_RESIZE_HPP_INCLUDED
 
@@ -28,38 +27,32 @@ namespace boost {
 namespace numeric {
 namespace odeint {
 
-
-
 /*
  * specializations for viennacl::vector< T >
  */
-template< typename T >
-struct is_resizeable< viennacl::vector< T > > : boost::true_type { };
+template <typename T>
+struct is_resizeable<viennacl::vector<T> > : boost::true_type {
+};
 
-template< typename T >
-struct resize_impl< viennacl::vector< T > , viennacl::vector< T > >
-{
-    static void resize( viennacl::vector< T > &x1 , const viennacl::vector< T > &x2 )
+template <typename T>
+struct resize_impl<viennacl::vector<T>, viennacl::vector<T> > {
+    static void resize(viennacl::vector<T> &x1, const viennacl::vector<T> &x2)
     {
-        x1.resize( x2.size() , false );
+        x1.resize(x2.size(), false);
     }
 };
 
-template< typename T >
-struct same_size_impl< viennacl::vector< T > , viennacl::vector< T > >
-{
-    static bool same_size( const viennacl::vector< T > &x1 , const viennacl::vector< T > &x2 )
+template <typename T>
+struct same_size_impl<viennacl::vector<T>, viennacl::vector<T> > {
+    static bool same_size(const viennacl::vector<T> &x1,
+                          const viennacl::vector<T> &x2)
     {
         return x1.size() == x2.size();
     }
 };
 
+}  // namespace odeint
+}  // namespace numeric
+}  // namespace boost
 
-
-} // namespace odeint
-} // namespace numeric
-} // namespace boost
-
-
-
-#endif // BOOST_NUMERIC_ODEINT_EXTERNAL_VIENNACL_VIENNACL_RESIZE_HPP_INCLUDED
+#endif  // BOOST_NUMERIC_ODEINT_EXTERNAL_VIENNACL_VIENNACL_RESIZE_HPP_INCLUDED

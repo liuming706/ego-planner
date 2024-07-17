@@ -38,7 +38,9 @@ optimizeMap(mocka::Maps::BasicInfo& in)
     std::vector<int>   pointIdxRadiusSearch;
     std::vector<float> pointRadiusSquaredDistance;
 
-    if (kdtree.radiusSearch(cloud->points[i], radius, pointIdxRadiusSearch,
+    if (kdtree.radiusSearch(cloud->points[i],
+                            radius,
+                            pointIdxRadiusSearch,
                             pointRadiusSquaredDistance) >= 27)
     {
       temp->push_back(i);

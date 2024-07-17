@@ -7,7 +7,4 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
 
 file(GLOB CMAKE_UILTS_FILES cmake/*.cmake)
 
-catkin_package(
-  CFG_EXTRAS ${CMAKE_UILTS_FILES}
-)
-
+catkin_package(CFG_EXTRAS ${CMAKE_UILTS_FILES})

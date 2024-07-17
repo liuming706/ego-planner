@@ -14,7 +14,6 @@
  copy at http://www.boost.org/LICENSE_1_0.txt)
  */
 
-
 #ifndef BOOST_NUMERIC_ODEINT_INTEGRATE_NULL_OBSERVER_HPP_INCLUDED
 #define BOOST_NUMERIC_ODEINT_INTEGRATE_NULL_OBSERVER_HPP_INCLUDED
 
@@ -22,17 +21,15 @@ namespace boost {
 namespace numeric {
 namespace odeint {
 
-struct null_observer
-{
-    template< class State , class Time >
-    void operator()( const State& /* x */ , Time /* t */ ) const
+struct null_observer {
+    template <class State, class Time>
+    void operator()(const State & /* x */, Time /* t */) const
     {
-
     }
 };
 
-} // namespace odeint
-} // namespace numeric
-} // namespace boost
+}  // namespace odeint
+}  // namespace numeric
+}  // namespace boost
 
-#endif // BOOST_NUMERIC_ODEINT_INTEGRATE_NULL_OBSERVER_HPP_INCLUDED
+#endif  // BOOST_NUMERIC_ODEINT_INTEGRATE_NULL_OBSERVER_HPP_INCLUDED

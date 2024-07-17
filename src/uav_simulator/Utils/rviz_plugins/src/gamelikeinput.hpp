@@ -16,83 +16,77 @@
 
 #endif
 
-namespace rviz
-{
+namespace rviz {
 class Arrow;
 class StringProperty;
-} // namespace rviz
+}  // namespace rviz
 
 class GameLikeInput : public rviz::SelectionTool
 {
-  Q_OBJECT
+    Q_OBJECT
 
 protected Q_SLOTS:
-  void updateTopic();
+    void updateTopic();
 
 public:
-  GameLikeInput();
-  virtual ~GameLikeInput();
+    GameLikeInput();
+    virtual ~GameLikeInput();
 
-  virtual void onInitialize();
+    virtual void onInitialize();
 
-  virtual int processMouseEvent(rviz::ViewportMouseEvent& event);
-  virtual int processKeyEvent(QKeyEvent* event, rviz::RenderPanel* panel);
+    virtual int processMouseEvent(rviz::ViewportMouseEvent &event);
+    virtual int processKeyEvent(QKeyEvent *event, rviz::RenderPanel *panel);
 
-  void sendMessage();
+    void sendMessage();
 
 protected:
-  virtual void onPoseSet(double x, double y, double z_vector, double theta);
+    virtual void onPoseSet(double x, double y, double z_vector, double theta);
 
 private:
-  rviz::InteractionTool* move_tool_;
+    rviz::InteractionTool *move_tool_;
 
-  bool selecting_;
-  int  sel_start_x_;
-  int  sel_start_y_;
+    bool selecting_;
+    int sel_start_x_;
+    int sel_start_y_;
 
-  rviz::M_Picked selection_;
+    rviz::M_Picked selection_;
 
-  bool moving_;
+    bool moving_;
 
-  ros::NodeHandle nh_;
-  ros::Publisher  pub_pointlist;
-  ros::Publisher  pub_selection;
-  ros::Publisher  pub_swarm;
+    ros::NodeHandle nh_;
+    ros::Publisher pub_pointlist;
+    ros::Publisher pub_selection;
+    ros::Publisher pub_swarm;
 
-  double z_max;
-  double z_min;
-  double x_max;
-  double x_min;
-  double y_max;
-  double y_min;
+    double z_max;
+    double z_min;
+    double x_max;
+    double x_min;
+    double y_max;
+    double y_min;
 
-  rviz::FloatProperty* property_z_max;
-  rviz::FloatProperty* property_z_min;
-  rviz::FloatProperty* property_x_max;
-  rviz::FloatProperty* property_x_min;
-  rviz::FloatProperty* property_y_max;
-  rviz::FloatProperty* property_y_min;
+    rviz::FloatProperty *property_z_max;
+    rviz::FloatProperty *property_z_min;
+    rviz::FloatProperty *property_x_max;
+    rviz::FloatProperty *property_x_min;
+    rviz::FloatProperty *property_y_max;
+    rviz::FloatProperty *property_y_min;
 
-  rviz::StringProperty* topic_property_wp_;
-  rviz::StringProperty* topic_property_drone_;
-  rviz::StringProperty* topic_property_swarm_;
+    rviz::StringProperty *topic_property_wp_;
+    rviz::StringProperty *topic_property_drone_;
+    rviz::StringProperty *topic_property_swarm_;
 
 private:
-  rviz::Arrow*              arrow_;
-  std::vector<rviz::Arrow*> arrow_array;
-  std::vector<double>       z_vector;
+    rviz::Arrow *arrow_;
+    std::vector<rviz::Arrow *> arrow_array;
+    std::vector<double> z_vector;
 
-  enum State
-  {
-    None,
-    Position,
-    Height
-  };
-  State state_;
+    enum State { None, Position, Height };
+    State state_;
 
-  Ogre::Vector3 pos_;
+    Ogre::Vector3 pos_;
 
-  //  boost::recursive_mutex global_mutex_;
+    //  boost::recursive_mutex global_mutex_;
 };
 
-#endif // GAMELIKEINPUT_HPP
+#endif  // GAMELIKEINPUT_HPP

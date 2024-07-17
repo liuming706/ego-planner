@@ -1,0 +1,121 @@
+---
+#说明： 本文件根据研究院C++编程语言规范（编制人 苏宪伟， 2019.12.31评审通过）制定，请大家务必遵守！
+#格式化的时候不要作任何其它修改，保证提交的仅有格式化方面的style修改
+
+# 语言: None, Cpp, Java, JavaScript, ObjC, Proto, TableGen, TextProto
+# clang-format version: 10
+
+#==========基本格式==========
+Language: Cpp
+
+#基础格式
+BasedOnStyle: Google
+
+#==========函数==========
+# 在同一行允许多个实参 *9.4* 没必要每个参数独立一行
+BinPackArguments: true
+
+# 在同一行允许多个形参
+BinPackParameters: true
+
+# 允许函数声明的所有参数在放在下一行
+AllowAllParametersOfDeclarationOnNextLine: true
+
+# *9.4* 允许短的函数放在同一行:None, InlineOnly(定义在类中), Empty(空函数), Inline(定义在类中，空函数), All(所有均允许)
+AllowShortFunctionsOnASingleLine: Inline
+
+#==========大（圆）括号格式==========
+# 大括号风格
+# -- Attach - 大括号紧随前方内容，放在同一行
+# -- Linux - 与 Attach 类似，除了 函数、命名空间、类定义 的大括号放在下一行
+# -- Mozilla - 与 Attach 类似，除了枚举、函数、结构（class\struct\union)的大括号放在下一行
+# -- Stroustrup - 与 Attach 类似，但函数定义前、catch前方、else前方的 {} 放在单独一行
+# -- Allman - 总是换行
+# -- Whitesmiths - 类似 Allman，但 {} 和内部的语句对齐到同样位置
+# -- GNU - 总是换行，但在控制语句后的{} 总是对齐到下一个位置
+# -- WebKit - 与 Attach 类似，但在函数定义前换行
+# -- Custom - 依赖 @ref BraceWrapping
+BreakBeforeBraces: Custom #Attach
+
+# 大括号换行，只有当BreakBeforeBraces设置为Custom时才有效
+BraceWrapping:
+  # *3.4* 类定义后换行
+  AfterClass: true
+
+  # *9.7， 9.8* 控制语句(条件控制、循环控制)后不换行
+  AfterControlStatement: false
+
+  # *7.7* 枚举定以后不换行
+  AfterEnum: false
+
+  # *9.4* 函数实现处左右大括号都独占行，且位于行首 InlineOnly
+  AfterFunction: true
+
+  # *4* 命名空间：大括号与名字同一行
+  AfterNamespace: false
+
+  # *9.7* else之前不换行
+  BeforeElse: false
+
+# ==========构造函数的初始化列表格式==========
+# 构造函数的初始化列表要么都在同一行，要么都各自一行 *5.3* 初始化列表独占一行
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+#AllowAllConstructorInitializersOnNextLine: false
+
+# 构造函数的初始化列表的缩进宽度 *5.3* 初始化列表4空格缩进
+ConstructorInitializerIndentWidth: 4
+
+# 类的初始化列表的分割方式 *5.3* 类的初始化列表与类名同行，且隔一空格
+# -- BeforeColon - 在冒号 ':' 前方分割，冒号位于行首，逗号','位于行尾
+# -- BeforeComma - 在冒号和逗号前方分割，冒号和逗号都位于行首，并且对齐
+# -- AfterColon - 在冒号和逗号后方分割，冒号和逗号位于行尾
+# -- AfterComma - 仅在逗号后方分割，冒号和首个基类位于同一行
+BreakConstructorInitializers: AfterColon
+
+#==========指针与引用对齐方式==========
+# 继承最常用的指针和引用的对齐方式 *9.9* 指针和引用的对齐: Left, Right, Middle, Right: 与变量无空格
+DerivePointerAlignment: false
+
+# *9.9* 指针和引用的对齐: Left, Right, Middle, Right: 与变量无空格
+PointerAlignment: Right
+
+#==========缩进与对齐==========
+# *9.7* case 比 switch四空格缩进
+IndentCaseLabels: true
+
+# *9.4* 默认使用4空格缩进
+IndentWidth: 4
+
+# *3.4* 访问说明符(public、private等)的偏移-4
+AccessModifierOffset: -4
+
+# *6.8* 开括号(开圆括号、开尖括号、开方括号)后的对齐: Align, DontAlign, AlwaysBreak(总是在开括号后换行)
+AlignAfterOpenBracket: Align
+
+# 连续赋值时，对齐所有等号。 未作说明，美观起见，暂作对齐
+AlignConsecutiveAssignments: false
+
+#==========其他==========
+# *9.2* 每行字符长度，没硬性要求，推荐为80,所以对应的违背惩罚较小
+ColumnLimit: 80
+
+# 对于每个在行字符数限制之外的字符的惩罚penalty
+PenaltyExcessCharacter: 4
+
+# 开圆括号之前添加一个空格: Never, ControlStatements, Always *9.7* 条件表达式括号外两端各一空格
+SpaceBeforeParens: ControlStatements
+
+# *9.3* 不使用制表符
+UseTab: Never
+
+# 对齐连续的尾随的注释 未作要求说明， 美观起见，设为对齐
+AlignTrailingComments: true
+
+# 不允许排序 #include 排序可能导致编译出错
+SortIncludes: false
+
+# 关闭格式化
+DisableFormat: false
+
+# 修正命名空间注释 未说明，严格起见，设为true
+FixNamespaceComments: true

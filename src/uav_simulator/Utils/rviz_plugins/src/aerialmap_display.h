@@ -41,13 +41,11 @@
 
 #include "rviz/display.h"
 
-namespace Ogre
-{
+namespace Ogre {
 class ManualObject;
 }
 
-namespace rviz
-{
+namespace rviz {
 
 class FloatProperty;
 class IntProperty;
@@ -60,75 +58,74 @@ class VectorProperty;
  * \class AerialMapDisplay
  * \brief Displays a map along the XY plane.
  */
-class AerialMapDisplay: public Display
+class AerialMapDisplay : public Display
 {
-Q_OBJECT
+    Q_OBJECT
 public:
-  AerialMapDisplay();
-  virtual ~AerialMapDisplay();
+    AerialMapDisplay();
+    virtual ~AerialMapDisplay();
 
-  // Overrides from Display
-  virtual void onInitialize();
-  virtual void fixedFrameChanged();
-  virtual void reset();
-  virtual void update( float wall_dt, float ros_dt );
+    // Overrides from Display
+    virtual void onInitialize();
+    virtual void fixedFrameChanged();
+    virtual void reset();
+    virtual void update(float wall_dt, float ros_dt);
 
-  float getResolution() { return resolution_; }
-  int getWidth() { return width_; }
-  int getHeight() { return height_; }
-  Ogre::Vector3 getPosition() { return position_; }
-  Ogre::Quaternion getOrientation() { return orientation_; }
+    float getResolution() { return resolution_; }
+    int getWidth() { return width_; }
+    int getHeight() { return height_; }
+    Ogre::Vector3 getPosition() { return position_; }
+    Ogre::Quaternion getOrientation() { return orientation_; }
 
 protected Q_SLOTS:
-  void updateAlpha();
-  void updateTopic();
-  void updateDrawUnder();
-
+    void updateAlpha();
+    void updateTopic();
+    void updateDrawUnder();
 
 protected:
-  // overrides from Display
-  virtual void onEnable();
-  virtual void onDisable();
+    // overrides from Display
+    virtual void onEnable();
+    virtual void onDisable();
 
-  virtual void subscribe();
-  virtual void unsubscribe();
+    virtual void subscribe();
+    virtual void unsubscribe();
 
-  void incomingAerialMap(const nav_msgs::OccupancyGrid::ConstPtr& msg);
+    void incomingAerialMap(const nav_msgs::OccupancyGrid::ConstPtr &msg);
 
-  void clear();
+    void clear();
 
-  void transformAerialMap();
+    void transformAerialMap();
 
-  Ogre::ManualObject* manual_object_;
-  Ogre::TexturePtr texture_;
-  Ogre::MaterialPtr material_;
-  bool loaded_;
+    Ogre::ManualObject *manual_object_;
+    Ogre::TexturePtr texture_;
+    Ogre::MaterialPtr material_;
+    bool loaded_;
 
-  std::string topic_;
-  float resolution_;
-  int width_;
-  int height_;
-  Ogre::Vector3 position_;
-  Ogre::Quaternion orientation_;
-  std::string frame_;
+    std::string topic_;
+    float resolution_;
+    int width_;
+    int height_;
+    Ogre::Vector3 position_;
+    Ogre::Quaternion orientation_;
+    std::string frame_;
 
-  ros::Subscriber map_sub_;
+    ros::Subscriber map_sub_;
 
-  RosTopicProperty* topic_property_;
-  FloatProperty* resolution_property_;
-  IntProperty* width_property_;
-  IntProperty* height_property_;
-  VectorProperty* position_property_;
-  QuaternionProperty* orientation_property_;
-  FloatProperty* alpha_property_;
-  Property* draw_under_property_;
+    RosTopicProperty *topic_property_;
+    FloatProperty *resolution_property_;
+    IntProperty *width_property_;
+    IntProperty *height_property_;
+    VectorProperty *position_property_;
+    QuaternionProperty *orientation_property_;
+    FloatProperty *alpha_property_;
+    Property *draw_under_property_;
 
-  nav_msgs::OccupancyGrid::ConstPtr updated_map_;
-  nav_msgs::OccupancyGrid::ConstPtr current_map_;
-  boost::mutex mutex_;
-  bool new_map_;
+    nav_msgs::OccupancyGrid::ConstPtr updated_map_;
+    nav_msgs::OccupancyGrid::ConstPtr current_map_;
+    boost::mutex mutex_;
+    bool new_map_;
 };
 
-} // namespace rviz
+}  // namespace rviz
 
- #endif
+#endif
