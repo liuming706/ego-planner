@@ -27,7 +27,7 @@ Panels:
   - Class: rviz/Time
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: simulation_map
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -73,13 +73,13 @@ Visualization Manager:
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
-          Enabled: false
+          Enabled: true
           Marker Topic: /ego_planner_node/global_list
           Name: global_path
           Namespaces:
             {}
           Queue Size: 100
-          Value: false
+          Value: true
         - Class: rviz/Marker
           Enabled: true
           Marker Topic: /ego_planner_node/optimal_list
@@ -225,7 +225,7 @@ Visualization Manager:
           Marker Topic: /odom_visualization/robot
           Name: robot
           Namespaces:
-            {}
+            mesh: true
           Queue Size: 100
           Value: true
       Enabled: true
@@ -326,6 +326,6 @@ Window Geometry:
     collapsed: false
   Width: 1470
   X: 442
-  Y: 36
+  Y: 27
   depth:
     collapsed: false

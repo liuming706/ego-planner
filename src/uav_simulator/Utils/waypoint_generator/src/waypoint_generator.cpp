@@ -189,6 +189,7 @@ void goal_callback(const geometry_msgs::PoseStamped::ConstPtr &msg)
             waypoints.poses.clear();
             waypoints.poses.push_back(pt);
             publish_waypoints_vis();
+            // 发布 /waypoint_generator/waypoints 话题, 传到 ego_replan_fsm.cpp
             publish_waypoints();
         } else {
             ROS_WARN(
@@ -263,6 +264,7 @@ int main(int argc, char **argv)
     ros::NodeHandle n("~");
     n.param("waypoint_type", waypoint_type, string("manual"));
     ros::Subscriber sub1 = n.subscribe("odom", 10, odom_callback);
+    // goal 在启动时被映射为 /move_base_simple/goal， 即 rviz 的 2D Nav Goal 按钮发布的话题
     ros::Subscriber sub2 = n.subscribe("goal", 10, goal_callback);
     ros::Subscriber sub3 =
         n.subscribe("traj_start_trigger", 10, traj_start_trigger_callback);

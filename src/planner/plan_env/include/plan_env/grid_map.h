@@ -47,7 +47,11 @@ struct matrix_hash : std::unary_function<T, size_t> {
 
 struct MappingParameters {
     /* map properties */
+    // map_origin_： 全局地图原点在世界坐标系下的坐标
+    // map_size_： 以 m 为单位的全局地图的长宽高
+    // map_voxel_num_ 以珊格为单位的全局地图的长宽高
     Eigen::Vector3d map_origin_, map_size_;
+    // map_min_boundary_： 全局地图左下角（地图原点）对应的世界坐标，map_max_boundary_：全局地图右上角对应的世界坐标
     Eigen::Vector3d map_min_boundary_, map_max_boundary_;  // map range in pos
     Eigen::Vector3i map_voxel_num_;                        // map range in index
     Eigen::Vector3d local_update_range_;
@@ -89,6 +93,7 @@ struct MappingData {
     // main map data, occupancy of each voxel and Euclidean distance
 
     std::vector<double> occupancy_buffer_;
+    // occupancy_buffer_inflate_: 存储局部地图范围内的每个珊格的全局地图珊格索引
     std::vector<char> occupancy_buffer_inflate_;
 
     // camera position and pose data
@@ -124,7 +129,8 @@ struct MappingData {
     // range of updating grid
 
     Eigen::Vector3i local_bound_min_, local_bound_max_;
-
+    // 局部地图左小角和右上角对应的全局地图珊格坐标系索引
+    Eigen::Vector3i local_index_min_, local_index_max_;
     // computation time
 
     double fuse_time_, max_fuse_time_;
@@ -250,6 +256,7 @@ inline int GridMap::toAddress(const Eigen::Vector3i &id)
 
 inline int GridMap::toAddress(int &x, int &y, int &z)
 {
+    // 三维索引-> 一维索引： z-y-x 顺序遍历
     return x * mp_.map_voxel_num_(1) * mp_.map_voxel_num_(2) +
            y * mp_.map_voxel_num_(2) + z;
 }
