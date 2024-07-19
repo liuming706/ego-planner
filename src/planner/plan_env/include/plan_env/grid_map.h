@@ -127,10 +127,8 @@ struct MappingData {
     queue<Eigen::Vector3i> cache_voxel_;
 
     // range of updating grid
-
-    Eigen::Vector3i local_bound_min_, local_bound_max_;
     // 局部地图左小角和右上角对应的全局地图珊格坐标系索引
-    Eigen::Vector3i local_index_min_, local_index_max_;
+    Eigen::Vector3i local_bound_min_, local_bound_max_;
     // computation time
 
     double fuse_time_, max_fuse_time_;

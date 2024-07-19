@@ -175,8 +175,7 @@ void GridMap::resetBuffer(Eigen::Vector3d min_pos, Eigen::Vector3d max_pos)
 
     boundIndex(min_id);
     boundIndex(max_id);
-    md_.local_index_min_ = min_id;
-    md_.local_index_max_ = max_id;
+
     /* reset occ and dist buffer */
     for (int x = min_id(0); x <= max_id(0); ++x)
         for (int y = min_id(1); y <= max_id(1); ++y)
@@ -583,7 +582,8 @@ void GridMap::clearAndInflateLocalMap()
                  ++z) {
                 if (md_.occupancy_buffer_[toAddress(x, y, z)] >
                     mp_.min_occupancy_log_) {
-#if 1  // NOTE(lumen): 对于地面机器人，将占据珊格在z的两方向延伸，延伸至可以连接天花板和地面
+                    // NOTE(lumen): 针对 ground_robot 是否需要更改 ?
+#if 1  // doghome for ground robot
                     for (int z1 = 0; z1 <= 100; ++z1) {
                         inflatePoint(Eigen::Vector3i(x, y, z1 * mp_.resolution_ * 2),
                                      inf_step, inf_pts);
@@ -599,7 +599,7 @@ void GridMap::clearAndInflateLocalMap()
                             md_.occupancy_buffer_inflate_[idx_inf] = 1;
                         }
                     }
-#else  // origin
+#else
                     inflatePoint(Eigen::Vector3i(x, y, z), inf_step, inf_pts);
 
                     for (int k = 0; k < (int)inf_pts.size(); ++k) {
@@ -755,36 +755,64 @@ void GridMap::cloudCallback(const sensor_msgs::PointCloud2ConstPtr &img)
         if (fabs(devi(0)) < mp_.local_update_range_(0) &&
             fabs(devi(1)) < mp_.local_update_range_(1) &&
             fabs(devi(2)) < mp_.local_update_range_(2)) {
-#if 1  // NOTE(lumen): for ground robot
-            /* inflate the point */
-            double leg_length = 0.85, arm_length = 0.85;
-            // 如果点云在机器人身体高度范围内，则z方向珊格进行扩展，撑满整个局部地图
-            if (devi(2) >= -leg_length && devi(2) <= arm_length) {
-                for (int x = -inf_step; x <= inf_step; ++x)
-                    for (int y = -inf_step; y <= inf_step; ++y)
-                        for (int z = md_.local_index_min_(2);
-                             z <= md_.local_index_max_(2); ++z) {
-                            p3d_inf(0) = pt.x + x * mp_.resolution_;
-                            p3d_inf(1) = pt.y + y * mp_.resolution_;
-                            p3d_inf(2) = mp_.map_origin_(2) + z * mp_.resolution_;
-                            // 更新该帧点云的最大世界坐标
-                            max_x = max(max_x, p3d_inf(0));
-                            max_y = max(max_y, p3d_inf(1));
-                            max_z = max(max_z, p3d_inf(2));
-                            // 更新该帧点云的最小世界坐标
-                            min_x = min(min_x, p3d_inf(0));
-                            min_y = min(min_y, p3d_inf(1));
-                            min_z = min(min_z, p3d_inf(2));
-                            // 世界坐标系->全局地图珊格坐标系
-                            posToIndex(p3d_inf, inf_pt);
+            // NOTE(lumen): for ground robot
+            if (ROBOT_TYPE == "grond_robot") {
+                /* inflate the point */
+                double leg_length = 0.85, arm_length = 0.85;
+                // 如果点云在机器人身体高度范围内，则z方向珊格进行扩展，撑满整个局部地图
+                if (devi(2) >= -leg_length && devi(2) <= arm_length) {
+                    for (int x = -inf_step; x <= inf_step; ++x)
+                        for (int y = -inf_step; y <= inf_step; ++y)
+                            for (int z = md_.local_bound_min_(2);
+                                 z <= md_.local_bound_max_(2); ++z) {
+                                p3d_inf(0) = pt.x + x * mp_.resolution_;
+                                p3d_inf(1) = pt.y + y * mp_.resolution_;
+                                p3d_inf(2) =
+                                    mp_.map_origin_(2) + z * mp_.resolution_;
+                                // 更新该帧点云的最大世界坐标
+                                max_x = max(max_x, p3d_inf(0));
+                                max_y = max(max_y, p3d_inf(1));
+                                max_z = max(max_z, p3d_inf(2));
+                                // 更新该帧点云的最小世界坐标
+                                min_x = min(min_x, p3d_inf(0));
+                                min_y = min(min_y, p3d_inf(1));
+                                min_z = min(min_z, p3d_inf(2));
+                                // 世界坐标系->全局地图珊格坐标系
+                                posToIndex(p3d_inf, inf_pt);
 
-                            if (!isInMap(inf_pt)) continue;
-                            // 全局地图珊格坐标系->一维索引
-                            int idx_inf = toAddress(inf_pt);
+                                if (!isInMap(inf_pt)) continue;
+                                // 全局地图珊格坐标系->一维索引
+                                int idx_inf = toAddress(inf_pt);
 
-                            md_.occupancy_buffer_inflate_[idx_inf] = 1;
-                        }
-            } else {
+                                md_.occupancy_buffer_inflate_[idx_inf] = 1;
+                            }
+                } else {
+                    for (int x = -inf_step; x <= inf_step; ++x)
+                        for (int y = -inf_step; y <= inf_step; ++y)
+                            for (int z = -inf_step_z; z <= inf_step_z; ++z) {
+                                p3d_inf(0) = pt.x + x * mp_.resolution_;
+                                p3d_inf(1) = pt.y + y * mp_.resolution_;
+                                p3d_inf(2) = pt.z + z * mp_.resolution_;
+
+                                max_x = max(max_x, p3d_inf(0));
+                                max_y = max(max_y, p3d_inf(1));
+                                max_z = max(max_z, p3d_inf(2));
+
+                                min_x = min(min_x, p3d_inf(0));
+                                min_y = min(min_y, p3d_inf(1));
+                                min_z = min(min_z, p3d_inf(2));
+
+                                posToIndex(p3d_inf, inf_pt);
+
+                                if (!isInMap(inf_pt)) continue;
+
+                                int idx_inf = toAddress(inf_pt);
+
+                                md_.occupancy_buffer_inflate_[idx_inf] = 1;
+                            }
+                }
+            } else {  // for uav
+                /* inflate the point */
                 for (int x = -inf_step; x <= inf_step; ++x)
                     for (int y = -inf_step; y <= inf_step; ++y)
                         for (int z = -inf_step_z; z <= inf_step_z; ++z) {
@@ -809,32 +837,6 @@ void GridMap::cloudCallback(const sensor_msgs::PointCloud2ConstPtr &img)
                             md_.occupancy_buffer_inflate_[idx_inf] = 1;
                         }
             }
-#else
-            /* inflate the point */
-            for (int x = -inf_step; x <= inf_step; ++x)
-                for (int y = -inf_step; y <= inf_step; ++y)
-                    for (int z = -inf_step_z; z <= inf_step_z; ++z) {
-                        p3d_inf(0) = pt.x + x * mp_.resolution_;
-                        p3d_inf(1) = pt.y + y * mp_.resolution_;
-                        p3d_inf(2) = pt.z + z * mp_.resolution_;
-
-                        max_x = max(max_x, p3d_inf(0));
-                        max_y = max(max_y, p3d_inf(1));
-                        max_z = max(max_z, p3d_inf(2));
-
-                        min_x = min(min_x, p3d_inf(0));
-                        min_y = min(min_y, p3d_inf(1));
-                        min_z = min(min_z, p3d_inf(2));
-
-                        posToIndex(p3d_inf, inf_pt);
-
-                        if (!isInMap(inf_pt)) continue;
-
-                        int idx_inf = toAddress(inf_pt);
-
-                        md_.occupancy_buffer_inflate_[idx_inf] = 1;
-                    }
-#endif
         }
     }
 

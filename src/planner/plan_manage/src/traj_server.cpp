@@ -1,5 +1,6 @@
 #include "bspline_opt/uniform_bspline.h"
 #include "nav_msgs/Odometry.h"
+#include "geometry_msgs/Twist.h"
 #include "ego_planner/Bspline.h"
 #include "quadrotor_msgs/PositionCommand.h"
 #include "std_msgs/Empty.h"
@@ -7,7 +8,7 @@
 #include <ros/ros.h>
 
 ros::Publisher pos_cmd_pub;
-
+ros::Publisher omni_robot_cmd_pub;
 quadrotor_msgs::PositionCommand cmd;
 double pos_gain[3] = {0, 0, 0};
 double vel_gain[3] = {0, 0, 0};
@@ -203,6 +204,14 @@ void cmdCallback(const ros::TimerEvent &e)
     last_yaw_ = cmd.yaw;
 
     pos_cmd_pub.publish(cmd);
+
+    if (ROBOT_TYPE == "ground_robot" && omni_robot_cmd_pub.getNumSubscribers() != 0) {
+        geometry_msgs::Twist omni_cmd_vel;
+        omni_cmd_vel.linear.x = vel(0);
+        omni_cmd_vel.linear.y = vel(1);
+        omni_cmd_vel.angular.z = yaw_yawdot.second;
+        omni_robot_cmd_pub.publish(omni_cmd_vel);
+    }
 }
 
 int main(int argc, char **argv)
@@ -216,6 +225,9 @@ int main(int argc, char **argv)
 
     pos_cmd_pub =
         node.advertise<quadrotor_msgs::PositionCommand>("/position_cmd", 50);
+    if (ROBOT_TYPE == "ground_robot") {
+        omni_robot_cmd_pub = node.advertise<geometry_msgs::Twist>("/cmd_vel", 50);
+    }
 
     ros::Timer cmd_timer = node.createTimer(ros::Duration(0.01), cmdCallback);
 

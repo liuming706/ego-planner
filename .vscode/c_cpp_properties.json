@@ -8,7 +8,9 @@
                 "/usr/local/include/**",
                 "/opt/ros/noetic/include/**"
             ],
-            "defines": [],
+            "defines": [
+                "ROBOT_TYPE=\"ground_robot\""
+            ],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "c11",
             "cppStandard": "c++17",
