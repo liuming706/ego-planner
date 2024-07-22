@@ -25,6 +25,21 @@ int traj_id_;
 double last_yaw_, last_yaw_dot_;
 double time_forward_;
 
+Eigen::Matrix4d body2world;
+
+void odomCallback(const nav_msgs::Odometry::ConstPtr &msg)
+{
+    Eigen::Quaterniond body_q = Eigen::Quaterniond(
+        msg->pose.pose.orientation.w, msg->pose.pose.orientation.x,
+        msg->pose.pose.orientation.y, msg->pose.pose.orientation.z);
+    Eigen::Matrix3d body_r_m = body_q.toRotationMatrix();
+
+    body2world.block<3, 3>(0, 0) = body_r_m;
+    body2world(0, 3) = msg->pose.pose.position.x;
+    body2world(1, 3) = msg->pose.pose.position.y;
+    body2world(2, 3) = msg->pose.pose.position.z;
+    body2world(3, 3) = 1.0;
+}
 void bsplineCallback(ego_planner::BsplineConstPtr msg)
 {
     // parse pos traj
@@ -35,11 +50,20 @@ void bsplineCallback(ego_planner::BsplineConstPtr msg)
     for (size_t i = 0; i < msg->knots.size(); ++i) {
         knots(i) = msg->knots[i];
     }
-
+    // // NOTE(lm)： 里程计坐标系下描述的局部路径点
+    // for (size_t i = 0; i < msg->pos_pts.size(); ++i) {
+    //     pos_pts(0, i) = msg->pos_pts[i].x;
+    //     pos_pts(1, i) = msg->pos_pts[i].y;
+    //     pos_pts(2, i) = msg->pos_pts[i].z;
+    // }
+    // 本体坐标系下描述的局部坐标点
     for (size_t i = 0; i < msg->pos_pts.size(); ++i) {
-        pos_pts(0, i) = msg->pos_pts[i].x;
-        pos_pts(1, i) = msg->pos_pts[i].y;
-        pos_pts(2, i) = msg->pos_pts[i].z;
+        Eigen::Matrix<double, 4, 1> msg_pos;
+        msg_pos << msg->pos_pts[i].x, msg->pos_pts[i].y, msg->pos_pts[i].z, 1;
+        Eigen::Vector4d pose_in_body = body2world.inverse() * msg_pos;
+        pos_pts(0, i) = pose_in_body(0);
+        pos_pts(1, i) = pose_in_body(1);
+        pos_pts(2, i) = pose_in_body(2);
     }
 
     UniformBspline pos_traj(pos_pts, msg->order, 0.1);
@@ -222,6 +246,7 @@ int main(int argc, char **argv)
 
     ros::Subscriber bspline_sub =
         node.subscribe("planning/bspline", 10, bsplineCallback);
+    ros::Subscriber odom_sub = node.subscribe("odom_world", 10, odomCallback);
 
     pos_cmd_pub =
         node.advertise<quadrotor_msgs::PositionCommand>("/position_cmd", 50);
