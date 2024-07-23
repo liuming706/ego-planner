@@ -50,21 +50,21 @@ void bsplineCallback(ego_planner::BsplineConstPtr msg)
     for (size_t i = 0; i < msg->knots.size(); ++i) {
         knots(i) = msg->knots[i];
     }
-    // // NOTE(lm)： 里程计坐标系下描述的局部路径点
-    // for (size_t i = 0; i < msg->pos_pts.size(); ++i) {
-    //     pos_pts(0, i) = msg->pos_pts[i].x;
-    //     pos_pts(1, i) = msg->pos_pts[i].y;
-    //     pos_pts(2, i) = msg->pos_pts[i].z;
-    // }
-    // 本体坐标系下描述的局部坐标点
+    // NOTE(lm)： 里程计坐标系下描述的局部路径点
     for (size_t i = 0; i < msg->pos_pts.size(); ++i) {
-        Eigen::Matrix<double, 4, 1> msg_pos;
-        msg_pos << msg->pos_pts[i].x, msg->pos_pts[i].y, msg->pos_pts[i].z, 1;
-        Eigen::Vector4d pose_in_body = body2world.inverse() * msg_pos;
-        pos_pts(0, i) = pose_in_body(0);
-        pos_pts(1, i) = pose_in_body(1);
-        pos_pts(2, i) = pose_in_body(2);
+        pos_pts(0, i) = msg->pos_pts[i].x;
+        pos_pts(1, i) = msg->pos_pts[i].y;
+        pos_pts(2, i) = msg->pos_pts[i].z;
     }
+    // // 本体坐标系下描述的局部坐标点
+    // for (size_t i = 0; i < msg->pos_pts.size(); ++i) {
+    //     Eigen::Matrix<double, 4, 1> msg_pos;
+    //     msg_pos << msg->pos_pts[i].x, msg->pos_pts[i].y, msg->pos_pts[i].z, 1;
+    //     Eigen::Vector4d pose_in_body = body2world.inverse() * msg_pos;
+    //     pos_pts(0, i) = pose_in_body(0);
+    //     pos_pts(1, i) = pose_in_body(1);
+    //     pos_pts(2, i) = pose_in_body(2);
+    // }
 
     UniformBspline pos_traj(pos_pts, msg->order, 0.1);
     pos_traj.setKnot(knots);
@@ -87,7 +87,10 @@ void bsplineCallback(ego_planner::BsplineConstPtr msg)
     traj_.push_back(traj_[1].getDerivative());
 
     traj_duration_ = traj_[0].getTimeSum();
-
+    std::cout << "lumen_debug: traj_server traj_duration_:" << traj_duration_
+              << std::endl;
+    std::cout << "lumen_debug: traj_server traj_[0].getControlPoint()" << std::endl
+              << traj_[0].getControlPoint() << std::endl;
     receive_traj_ = true;
 }
 
@@ -229,7 +232,8 @@ void cmdCallback(const ros::TimerEvent &e)
 
     pos_cmd_pub.publish(cmd);
 
-    if (ROBOT_TYPE == "ground_robot" && omni_robot_cmd_pub.getNumSubscribers() != 0) {
+    if (ROBOT_TYPE == "_ground_robot" &&
+        omni_robot_cmd_pub.getNumSubscribers() != 0) {
         geometry_msgs::Twist omni_cmd_vel;
         omni_cmd_vel.linear.x = vel(0);
         omni_cmd_vel.linear.y = vel(1);

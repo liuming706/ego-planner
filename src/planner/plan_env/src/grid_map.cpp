@@ -763,8 +763,8 @@ void GridMap::cloudCallback(const sensor_msgs::PointCloud2ConstPtr &img)
                 // // 如果点云在机器人身体高度范围内，则z方向珊格进行扩展，撑满整个局部地图
                 for (int x = -inf_step; x <= inf_step; ++x)
                     for (int y = -inf_step; y <= inf_step; ++y)
-                        for (int z = -2 * mp_.local_update_range_(2);
-                             z <= 2 * mp_.local_update_range_(2); ++z) {
+                        for (int z = -mp_.map_voxel_num_(2);
+                             z <= mp_.map_voxel_num_(2); ++z) {
                             p3d_inf(0) = pt.x + x * mp_.resolution_;
                             p3d_inf(1) = pt.y + y * mp_.resolution_;
                             p3d_inf(2) = pt.z + z * mp_.resolution_;

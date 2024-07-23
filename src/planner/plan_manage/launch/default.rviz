@@ -8,10 +8,9 @@ Panels:
         - /Mapping1
         - /Mapping1/simulation_map1/Autocompute Value Bounds1
         - /PointCloud21
-        - /TF1
-        - /TF1/Frames1
+        - /PointCloud22
       Splitter Ratio: 0.5
-    Tree Height: 805
+    Tree Height: 863
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -219,7 +218,7 @@ Visualization Manager:
           Use Fixed Frame: true
           Use rainbow: true
           Value: false
-      Enabled: false
+      Enabled: true
       Name: Mapping
     - Class: rviz/Group
       Displays:
@@ -248,18 +247,195 @@ Visualization Manager:
     - Alpha: 1
       Class: rviz/RobotModel
       Collision Enabled: false
-      Enabled: false
+      Enabled: true
       Links:
         All Links Enabled: true
         Expand Joint Details: false
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        base_footprint:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bottem_left_roller_e_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bottem_left_roller_n_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bottem_left_roller_ne_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bottem_left_roller_nw_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bottem_left_roller_s_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bottem_left_roller_se_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bottem_left_roller_sw_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bottem_left_roller_w_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bottem_right_roller_e_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bottem_right_roller_n_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bottem_right_roller_ne_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bottem_right_roller_nw_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bottem_right_roller_s_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bottem_right_roller_se_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bottem_right_roller_sw_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        bottem_right_roller_w_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        camera_depth_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        camera_rgb_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        imu_base:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_bottom_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_bottom_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_left_roller_e_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_left_roller_n_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_left_roller_ne_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_left_roller_nw_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_left_roller_s_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_left_roller_se_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_left_roller_sw_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_left_roller_w_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        support:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        top_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        velodyne:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        velodyne_base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
       Name: RobotModel
       Robot Description: robot_description
       TF Prefix: ""
       Update Interval: 0
-      Value: false
+      Value: true
       Visual Enabled: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
@@ -296,108 +472,78 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: false
-        IMU_sensor:
-          Value: false
         base_footprint:
           Value: false
         base_link:
           Value: false
-        kinect_v2:
-          Value: false
-        kinect_v2_cloud_link:
-          Value: false
-        roller_1_1:
-          Value: false
-        roller_1_2:
-          Value: false
-        roller_1_3:
-          Value: false
-        roller_1_4:
-          Value: false
-        roller_1_5:
-          Value: false
-        roller_1_6:
-          Value: false
-        roller_1_7:
-          Value: false
-        roller_1_8:
-          Value: false
-        roller_1_9:
-          Value: false
-        roller_2_1:
-          Value: false
-        roller_2_2:
-          Value: false
-        roller_2_3:
-          Value: false
-        roller_2_4:
-          Value: false
-        roller_2_5:
-          Value: false
-        roller_2_6:
-          Value: false
-        roller_2_7:
-          Value: false
-        roller_2_8:
-          Value: false
-        roller_2_9:
-          Value: false
-        roller_3_1:
-          Value: false
-        roller_3_2:
-          Value: false
-        roller_3_3:
-          Value: false
-        roller_3_4:
-          Value: false
-        roller_3_5:
-          Value: false
-        roller_3_6:
-          Value: false
-        roller_3_7:
-          Value: false
-        roller_3_8:
-          Value: false
-        roller_3_9:
-          Value: false
-        roller_4_1:
-          Value: false
-        roller_4_2:
-          Value: false
-        roller_4_3:
-          Value: false
-        roller_4_4:
-          Value: false
-        roller_4_5:
-          Value: false
-        roller_4_6:
-          Value: false
-        roller_4_7:
-          Value: false
-        roller_4_8:
-          Value: false
-        roller_4_9:
-          Value: false
-        sick_lidar0:
-          Value: false
-        sick_lidar1:
-          Value: false
-        ultrasound_1:
-          Value: false
-        ultrasound_2:
-          Value: false
-        ultrasound_3:
-          Value: false
-        ultrasound_4:
-          Value: false
-        wheel_1:
-          Value: false
-        wheel_2:
-          Value: false
-        wheel_3:
-          Value: false
-        wheel_4:
-          Value: false
+        bottem_left_roller_e_link:
+          Value: true
+        bottem_left_roller_n_link:
+          Value: true
+        bottem_left_roller_ne_link:
+          Value: true
+        bottem_left_roller_nw_link:
+          Value: true
+        bottem_left_roller_s_link:
+          Value: true
+        bottem_left_roller_se_link:
+          Value: true
+        bottem_left_roller_sw_link:
+          Value: true
+        bottem_left_roller_w_link:
+          Value: true
+        bottem_right_roller_e_link:
+          Value: true
+        bottem_right_roller_n_link:
+          Value: true
+        bottem_right_roller_ne_link:
+          Value: true
+        bottem_right_roller_nw_link:
+          Value: true
+        bottem_right_roller_s_link:
+          Value: true
+        bottem_right_roller_se_link:
+          Value: true
+        bottem_right_roller_sw_link:
+          Value: true
+        bottem_right_roller_w_link:
+          Value: true
+        camera_depth_frame:
+          Value: true
+        camera_link:
+          Value: true
+        camera_rgb_frame:
+          Value: true
+        imu_base:
+          Value: true
+        left_bottom_wheel:
+          Value: true
+        right_bottom_wheel:
+          Value: true
+        right_left_roller_e_link:
+          Value: true
+        right_left_roller_n_link:
+          Value: true
+        right_left_roller_ne_link:
+          Value: true
+        right_left_roller_nw_link:
+          Value: true
+        right_left_roller_s_link:
+          Value: true
+        right_left_roller_se_link:
+          Value: true
+        right_left_roller_sw_link:
+          Value: true
+        right_left_roller_w_link:
+          Value: true
+        support:
+          Value: true
+        top_wheel:
+          Value: true
+        velodyne:
+          Value: true
+        velodyne_base_link:
+          Value: true
         world:
           Value: true
       Marker Alpha: 1
@@ -410,100 +556,97 @@ Visualization Manager:
         world:
           base_footprint:
             base_link:
-              IMU_sensor:
+              camera_link:
+                camera_depth_frame:
+                  {}
+                camera_rgb_frame:
+                  {}
+              imu_base:
                 {}
-              kinect_v2:
-                kinect_v2_cloud_link:
+              left_bottom_wheel:
+                bottem_left_roller_e_link:
                   {}
-              sick_lidar0:
-                {}
-              sick_lidar1:
-                {}
-              ultrasound_1:
-                {}
-              ultrasound_2:
-                {}
-              ultrasound_3:
-                {}
-              ultrasound_4:
-                {}
-              wheel_1:
-                roller_1_1:
+                bottem_left_roller_n_link:
                   {}
-                roller_1_2:
+                bottem_left_roller_ne_link:
                   {}
-                roller_1_3:
+                bottem_left_roller_nw_link:
                   {}
-                roller_1_4:
+                bottem_left_roller_s_link:
                   {}
-                roller_1_5:
+                bottem_left_roller_se_link:
                   {}
-                roller_1_6:
+                bottem_left_roller_sw_link:
                   {}
-                roller_1_7:
+                bottem_left_roller_w_link:
                   {}
-                roller_1_8:
+              right_bottom_wheel:
+                bottem_right_roller_e_link:
                   {}
-                roller_1_9:
+                bottem_right_roller_n_link:
                   {}
-              wheel_2:
-                roller_2_1:
+                bottem_right_roller_ne_link:
                   {}
-                roller_2_2:
+                bottem_right_roller_nw_link:
                   {}
-                roller_2_3:
+                bottem_right_roller_s_link:
                   {}
-                roller_2_4:
+                bottem_right_roller_se_link:
                   {}
-                roller_2_5:
+                bottem_right_roller_sw_link:
                   {}
-                roller_2_6:
+                bottem_right_roller_w_link:
                   {}
-                roller_2_7:
+              support:
+                velodyne_base_link:
+                  velodyne:
+                    {}
+              top_wheel:
+                right_left_roller_e_link:
                   {}
-                roller_2_8:
+                right_left_roller_n_link:
                   {}
-                roller_2_9:
+                right_left_roller_ne_link:
                   {}
-              wheel_3:
-                roller_3_1:
+                right_left_roller_nw_link:
                   {}
-                roller_3_2:
+                right_left_roller_s_link:
                   {}
-                roller_3_3:
+                right_left_roller_se_link:
                   {}
-                roller_3_4:
+                right_left_roller_sw_link:
                   {}
-                roller_3_5:
-                  {}
-                roller_3_6:
-                  {}
-                roller_3_7:
-                  {}
-                roller_3_8:
-                  {}
-                roller_3_9:
-                  {}
-              wheel_4:
-                roller_4_1:
-                  {}
-                roller_4_2:
-                  {}
-                roller_4_3:
-                  {}
-                roller_4_4:
-                  {}
-                roller_4_5:
-                  {}
-                roller_4_6:
-                  {}
-                roller_4_7:
-                  {}
-                roller_4_8:
-                  {}
-                roller_4_9:
+                right_left_roller_w_link:
                   {}
       Update Interval: 0
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Min Color: 0; 0; 0
+      Name: PointCloud2
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.05000000074505806
+      Style: Flat Squares
+      Topic: /velodyne_points
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
       Value: true
   Enabled: true
   Global Options:
@@ -532,7 +675,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/ThirdPersonFollower
-      Distance: 2.7692017555236816
+      Distance: 20.686185836791992
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -548,9 +691,9 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.3447974920272827
+      Pitch: 1.189797282218933
       Target Frame: world
-      Yaw: 0.0022835731506347656
+      Yaw: 3.1104562282562256
     Saved:
       - Class: rviz/ThirdPersonFollower
         Distance: 17.48538589477539
@@ -575,10 +718,10 @@ Visualization Manager:
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 956
+  Height: 1014
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd0000000400000000000002a000000362fc020000000ffb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d00000362000000c900fffffffb0000000a00560069006500770073000000010c000000b9000000a400fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000c00430061006d00650072006100000001d1000000b50000000000000000fb0000000a0049006d00610067006502000001a2000001e1000000f8000000b5fb0000000a006400650070007400680000000141000002910000001600fffffffb0000000a0049006d0061006700650100000415000000f80000000000000000fb0000000a0049006d00610067006501000003f4000001190000000000000000fb0000000a006400650070007400680100000459000000f50000000000000000000000010000010f00000385fc0200000002fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000006100000003bfc0100000002fb0000000800540069006d00650000000000000006100000041800fffffffb0000000800540069006d00650100000000000004500000000000000000000001f60000036200000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000400000000000001560000039cfc020000000ffb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d0000039c000000c900fffffffb0000000a00560069006500770073000000010c000000b9000000a400fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000000c00430061006d00650072006100000001d1000000b50000000000000000fb0000000a0049006d00610067006502000001a2000001e1000000f8000000b5fb0000000a006400650070007400680000000141000002910000001600fffffffb0000000a0049006d0061006700650100000415000000f80000000000000000fb0000000a0049006d00610067006501000003f4000001190000000000000000fb0000000a006400650070007400680100000459000000f50000000000000000000000010000010f00000385fc0200000002fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000006100000003bfc0100000002fb0000000800540069006d00650000000000000006100000041800fffffffb0000000800540069006d006501000000000000045000000000000000000000021b0000039c00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -587,8 +730,8 @@ Window Geometry:
     collapsed: false
   Views:
     collapsed: false
-  Width: 1180
-  X: 442
+  Width: 887
+  X: 1033
   Y: 27
   depth:
     collapsed: false

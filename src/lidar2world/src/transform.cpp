@@ -15,7 +15,7 @@ void pointCloudCallback(const sensor_msgs::PointCloud2::ConstPtr &msg)
 {
     try {
         geometry_msgs::TransformStamped transformStamped =
-            tfBuffer.lookupTransform("world", "kinect_v2_cloud_link", ros::Time(0));
+            tfBuffer.lookupTransform("world", "camera_depth_frame", ros::Time(0));
 
         sensor_msgs::PointCloud2 transformed_cloud;
         tf2::doTransform(*msg, transformed_cloud, transformStamped);
