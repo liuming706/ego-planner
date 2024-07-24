@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(lidar2world)
+project(cloud2world)
 
 # Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -79,7 +79,8 @@ catkin_package(
   tf2
   tf2_ros
   tf2_sensor_msgs
-  pcl_ros)
+  pcl_ros
+  message_filters)
 # ##############################################################################
 # Build ##
 # ##############################################################################

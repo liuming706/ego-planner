@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>lidar2world</name>
+  <name>cloud2world</name>
   <version>0.0.0</version>
-  <description>The lidar2world package</description>
+  <description>The cloud2world package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
@@ -51,16 +51,19 @@
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>sensor_msgs</build_depend>
+  <build_depend>message_filters</build_depend>
   <build_depend>tf2</build_depend>
   <build_depend>tf2_ros</build_depend>
   <build_depend>pcl_ros</build_depend>
   <build_depend>tf2_sensor_msgs</build_depend>
   <build_export_depend>roscpp</build_export_depend>
   <build_export_depend>sensor_msgs</build_export_depend>
+  <build_export_depend>message_filters</build_export_depend>
   <build_export_depend>tf2</build_export_depend>
   <build_export_depend>tf2_ros</build_export_depend>
   <build_export_depend>tf2_sensor_msgs</build_export_depend>
   <exec_depend>roscpp</exec_depend>
+  <exec_depend>message_filters</exec_depend>
   <exec_depend>sensor_msgs</exec_depend>
   <exec_depend>tf2</exec_depend>
   <exec_depend>tf2_ros</exec_depend>

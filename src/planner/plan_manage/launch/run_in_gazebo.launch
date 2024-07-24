@@ -6,10 +6,12 @@
 
   <!-- topic of your odometry such as VIO or LIO -->
   <arg name="odom_topic" value="/world" />
-  <arg name="cloud_topic" value="/camera/depth/points" />
+  <arg name="front_cloud_topic" value="/camera/depth/points" />
+  <arg name="back_cloud_topic" value="/camera_back/depth/points" />
 
-  <node pkg="lidar2world" name="lidar2world_node" type="lidar2world_node" output="screen">
-    <remap from="/velodyne_points" to="$(arg cloud_topic)" />
+  <node pkg="cloud2world" name="cloud2world_node" type="cloud2world_node" output="screen">
+    <remap from="/camera/depth/points" to="$(arg front_cloud_topic)" />
+    <remap from="/camera_back/depth/points" to="$(arg back_cloud_topic)" />
     <remap from="point_cloud_map" to="/pcl_render_node/cloud" />
   </node>
 

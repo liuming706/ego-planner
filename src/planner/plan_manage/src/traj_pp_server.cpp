@@ -179,13 +179,12 @@ geometry_msgs::Twist purePursuit(const Eigen::Vector3d &pose,
                                  const Eigen::Vector3d &tar)
 {
     // PID Control
-    float delta_x = tar[0] - pose[0];
-    float delta_y = tar[1] - pose[1];
-    float delta_th = tar[2] - pose[2];
-
-    float Kx = 0.5;
-    float Ky = 0.5;
-    float Kw = 3.0;
+    double delta_x = tar[0] - pose[0];
+    double delta_y = tar[1] - pose[1];
+    double delta_th = tar[2] - pose[2];
+    double Kx = 5;
+    double Ky = 5;
+    double Kw = 2;
 
     geometry_msgs::Twist control;
     if (sqrt(delta_x * delta_x + delta_y * delta_y) > 0.05) {
@@ -193,7 +192,10 @@ geometry_msgs::Twist purePursuit(const Eigen::Vector3d &pose,
             Kx * delta_x * cos(pose[2]) + Ky * delta_y * sin(pose[2]);
         control.linear.y =
             -Kx * delta_x * sin(pose[2]) + Ky * delta_y * cos(pose[2]);
-        control.angular.z = Kw * delta_th;
+        // 角速度限幅，防止振荡
+        control.angular.z = min(Kw * delta_th, control.angular.z + 0.2);
+        control.angular.z = max(control.angular.z, control.angular.z - 0.2);
+
     } else {
         cout << "Done!!" << endl;
         control.linear.x = 0.0;
@@ -210,14 +212,18 @@ void cmdCallback(const ros::TimerEvent &e)
     ros::Time time_now = ros::Time::now();
     double t_cur = (time_now - start_time_).toSec();
     Eigen::Vector3d desire_pos(Eigen::Vector3d::Zero());
+    Eigen::Vector3d desire_vel(Eigen::Vector3d::Zero());
     static ros::Time time_last = ros::Time::now();
 
     if (t_cur < traj_duration_ && t_cur >= 0.0) {
         desire_pos = traj_[0].evaluateDeBoorT(t_cur);
+        desire_vel = traj_[1].evaluateDeBoorT(t_cur);
         desire_pos[2] = calculate_yaw(t_cur, desire_pos, time_now, time_last).first;
+        desire_vel[2] = calculate_yaw(t_cur, desire_pos, time_now, time_last).second;
     } else if (t_cur >= traj_duration_) {
         /* hover when finish traj_ */
         desire_pos = traj_[0].evaluateDeBoorT(traj_duration_);
+        desire_vel.setZero();
         desire_pos[2] = last_yaw_;
     } else {
         cout << "[Traj server]: invalid time." << endl;
@@ -225,9 +231,19 @@ void cmdCallback(const ros::TimerEvent &e)
     time_last = time_now;
 
     if (omni_robot_cmd_pub.getNumSubscribers() != 0) {
+        std::cout << "desire_pos: " << desire_pos << std::endl;
+        std::cout << "desire_vel: " << desire_vel << std::endl;
+        // 未加轨迹跟踪器
+        // geometry_msgs::Twist cmd;
+        // cmd.linear.x = desire_vel[0] * cos(current_state_(2)) +
+        //                desire_vel[1] * sin(current_state_(2));
+        // cmd.linear.y = -desire_vel[0] * sin(current_state_(2)) +
+        //                desire_vel[1] * cos(current_state_(2));
+        // cmd.angular.z = desire_vel[2];
+        // omni_robot_cmd_pub.publish(cmd);
+        // 纯追踪轨迹跟踪器
         omni_robot_cmd_pub.publish(purePursuit(current_state_, desire_pos));
     }
-    last_yaw_ = cmd.yaw;
 }
 
 int main(int argc, char **argv)
