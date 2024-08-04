@@ -19,7 +19,7 @@ PolynomialTraj PolynomialTraj::minSnapTraj(const Eigen::MatrixXd &Pos,
         int fac = 1;
         for (int i = x; i > 0; i--) fac = fac * i;
         return fac;
-    };
+    };  // 求 x 的阶乘
 
     /* ---------- end point derivative ---------- */
     Eigen::VectorXd Dx = Eigen::VectorXd::Zero(seg_num * 6);

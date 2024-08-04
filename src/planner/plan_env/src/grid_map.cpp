@@ -127,8 +127,8 @@ void GridMap::initMap(ros::NodeHandle &nh)
     indep_odom_sub_ = node_.subscribe<nav_msgs::Odometry>(
         "/grid_map/odom", 10, &GridMap::odomCallback, this);
 
-    occ_timer_ = node_.createTimer(ros::Duration(0.05),
-                                   &GridMap::updateOccupancyCallback, this);
+    // occ_timer_ = node_.createTimer(ros::Duration(0.05),
+    //                                &GridMap::updateOccupancyCallback, this);
     vis_timer_ =
         node_.createTimer(ros::Duration(0.05), &GridMap::visCallback, this);
 

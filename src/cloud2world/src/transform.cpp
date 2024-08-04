@@ -16,10 +16,18 @@ ros::Publisher points_pub;
 tf2_ros::Buffer tfBuffer;
 geometry_msgs::TransformStamped camera_front_to_world;
 geometry_msgs::TransformStamped camera_back_to_world;
+// static int accept_count_ = 0;
+// static int cloud_count_ = 0;
 
 void synchronizerCallback(const sensor_msgs::PointCloud2ConstPtr &cloud_front,
                           const sensor_msgs::PointCloud2ConstPtr &cloud_back)
 {
+    // cloud_count_++;
+    // if (accept_count_ / cloud_count_ < 0.01) {
+    //     accept_count_++;
+    // } else {
+    //     return;
+    // }
     try {
         if (tfBuffer.canTransform("world", "camera_depth_frame", ros::Time(0))) {
             camera_front_to_world = tfBuffer.lookupTransform(
@@ -68,7 +76,7 @@ void synchronizerCallback(const sensor_msgs::PointCloud2ConstPtr &cloud_front,
     pcl::PassThrough<pcl::PointXYZ> pass;
     pass.setInputCloud(pcl_cloud_merge_filter_world);  // 设置输入点云
     pass.setFilterFieldName("z");    // 设置过滤的字段为z轴
-    pass.setFilterLimits(0.1, 0.5);  // 设置z轴的范围为 [0.0, 1.0]
+    pass.setFilterLimits(0.1, 0.5);  // 设置z轴的范围
     pass.filter(*pcl_cloud_merge_filter_world);
 
     pcl::toROSMsg(*pcl_cloud_merge_filter_world, cloud_merge_world);

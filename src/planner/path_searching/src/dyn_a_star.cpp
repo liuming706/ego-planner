@@ -195,7 +195,7 @@ bool AStar::AstarSearch(const double step_size, Vector3d start_pt, Vector3d end_
                     }
 
                     neighborPtr->rounds = rounds_;
-
+                    // NOTE（lumen）: 用到占据珊格
                     if (checkOccupancy(Index2Coord(neighborPtr->index))) {
                         continue;
                     }

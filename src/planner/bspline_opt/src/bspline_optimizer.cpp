@@ -62,6 +62,7 @@ std::vector<std::vector<Eigen::Vector3d>> BsplineOptimizer::initControlPoints(
                     3;  // only check closed 2/3 points.
     for (int i = order_; i <= i_end; ++i) {
         for (double a = 1.0; a >= 0.0; a -= step_size) {
+            // NOTE（lumen）: 用到占据珊格
             occ = grid_map_->getInflateOccupancy(a * init_points.col(i - 1) +
                                                  (1 - a) * init_points.col(i));
             // cout << setprecision(5);
@@ -105,6 +106,7 @@ std::vector<std::vector<Eigen::Vector3d>> BsplineOptimizer::initControlPoints(
         // cout << "in=" << in.transpose() << " out=" << out.transpose() << endl;
         Eigen::Vector3d in(init_points.col(segment_ids[i].first)),
             out(init_points.col(segment_ids[i].second));
+        // NOTE（lumen）: 用到占据珊格
         if (a_star_->AstarSearch(/*(in-out).norm()/10+0.05*/ 0.1, in, out)) {
             a_star_pathes.push_back(a_star_->getPath());
         } else {
@@ -243,6 +245,7 @@ std::vector<std::vector<Eigen::Vector3d>> BsplineOptimizer::initControlPoints(
                 if (length > 1e-5) {
                     for (double a = length; a >= 0.0;
                          a -= grid_map_->getResolution()) {
+                        // NOTE（lumen）: 用到占据珊格
                         occ = grid_map_->getInflateOccupancy(
                             (a / length) * intersection_point +
                             (1 - a / length) * cps_.points.col(j));
@@ -846,7 +849,7 @@ bool BsplineOptimizer::BsplineOptimizeTrajRebound(Eigen::MatrixXd &optimal_point
                                                   double ts)
 {
     setBsplineInterval(ts);
-
+    // NOTE（lumen）: 用到占据珊格
     bool flag_success = rebound_optimize();
 
     optimal_points = cps_.points;
@@ -928,6 +931,7 @@ bool BsplineOptimizer::rebound_optimize()
                  t += t_step)  // Only check the closest 2/3 partition of the
                                // whole trajectory.
             {
+                // NOTE（lumen）: 用到占据珊格
                 flag_occ = grid_map_->getInflateOccupancy(traj.evaluateDeBoorT(t));
                 if (flag_occ) {
                     // cout << "hit_obs, t=" << t << " P=" <<

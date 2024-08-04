@@ -2,11 +2,17 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "catkin_make", 
-            "type": "shell",  
+            "label": "catkin_make",
+            "type": "shell",
             "command": "catkin_make",
-            "args": ["-DCMAKE_BUILD_TYPE=Release"],
-            "group": {"kind":"build","isDefault":true},
+            "args": [
+                "-DCMAKE_BUILD_TYPE=Release",
+                "-DCMAKE_EXPORT_COMPILE_COMMANDS=Yes"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
             "presentation": {
                 "reveal": "always"
             },
@@ -14,5 +20,4 @@
         },
     ]
 }
-
 // catkin_make -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=Yes

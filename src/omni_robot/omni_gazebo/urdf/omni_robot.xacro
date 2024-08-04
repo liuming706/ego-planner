@@ -93,10 +93,16 @@
 		<visual name="hold_box1">
 			<origin xyz="0 0 0.26" rpy="0 0 0" />
 			<geometry>
-				<cylinder radius="0.25" length="0.05" />
+				<box size="0.55 1.00 0.05" />
 			</geometry>
-			<material name="blue" />
+			<material name="white" />
 		</visual>
+		<collision name="hold_box1">
+			<origin xyz="0 0 0" rpy="0 0 0" />
+			<geometry>
+				<box size="0.55 1.00 0.05" />
+			</geometry>
+		</collision>
 
 		<!-- hold_box2
 		<visual name="hold_box2">

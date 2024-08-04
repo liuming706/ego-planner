@@ -249,6 +249,7 @@ bool EGOPlannerManager::reboundReplan(Eigen::Vector3d start_pt,
                                           ctrl_pts);
 
     vector<vector<Eigen::Vector3d>> a_star_pathes;
+    // NOTE（lumen）: 用到占据珊格
     a_star_pathes = bspline_optimizer_rebound_->initControlPoints(ctrl_pts, true);
 
     t_init = ros::Time::now() - t_start;
@@ -260,6 +261,7 @@ bool EGOPlannerManager::reboundReplan(Eigen::Vector3d start_pt,
     t_start = ros::Time::now();
 
     /*** STEP 2: OPTIMIZE ***/
+    // NOTE（lumen）: 用到占据珊格
     bool flag_step_1_success =
         bspline_optimizer_rebound_->BsplineOptimizeTrajRebound(ctrl_pts, ts);
     cout << "first_optimize_step_success=" << flag_step_1_success << endl;
@@ -378,10 +380,11 @@ bool EGOPlannerManager::planGlobalTrajWaypoints(
 
     Eigen::Vector3d zero(0, 0, 0);
     Eigen::VectorXd time(pt_num - 1);
+    // 记录相邻路径点所需时间
     for (int i = 0; i < pt_num - 1; ++i) {
         time(i) = (pos.col(i + 1) - pos.col(i)).norm() / (pp_.max_vel_);
     }
-
+    // 首尾时间防止过小需要乘以2
     time(0) *= 2.0;
     time(time.rows() - 1) *= 2.0;
 
@@ -424,7 +427,7 @@ bool EGOPlannerManager::planGlobalTraj(const Eigen::Vector3d &start_pos,
 
         if (dist > dist_thresh) {
             int id_num = floor(dist / dist_thresh) + 1;
-
+            // 起点到终点的距离超过 dist_thresh， 进行线性插值，添加路径点
             for (int j = 1; j < id_num; ++j) {
                 Eigen::Vector3d inter_pt =
                     points.at(i) * (1.0 - double(j) / id_num) +

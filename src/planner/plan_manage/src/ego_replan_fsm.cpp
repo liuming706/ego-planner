@@ -106,13 +106,16 @@ void EGOReplanFSM::planGlobalTrajbyGivenWps()
 
 void EGOReplanFSM::waypointCallback(const nav_msgs::PathConstPtr &msg)
 {
+    // 目标点的 Z 坐标不能小于 0
     if (msg->poses[0].pose.position.z < -0.1) return;
 
     cout << "Triggered!" << endl;
     trigger_ = true;
+    // 初始化起点
     init_pt_ = odom_pos_;
 
     bool success = false;
+    // 初始化目标点
     end_pt_ << msg->poses[0].pose.position.x, msg->poses[0].pose.position.y, 1.0;
     success = planner_manager_->planGlobalTraj(
         odom_pos_, odom_vel_, Eigen::Vector3d::Zero(), end_pt_,
@@ -245,7 +248,7 @@ void EGOReplanFSM::execFSMCallback(const ros::TimerEvent &e)
             // 第一次切换到这个状态
             if (timesOfConsecutiveStateCalls().first == 1) {
                 flag_random_poly_init = false;
-            } else  // 非一次切换到这个状态
+            } else  // 非第一次切换到这个状态
             {
                 flag_random_poly_init = true;
             }
