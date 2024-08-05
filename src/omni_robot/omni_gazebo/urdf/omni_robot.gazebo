@@ -15,6 +15,11 @@
     <turnGravityOff>false</turnGravityOff>
   </gazebo>
 
+  <gazebo reference="hold_box1">
+    <material>Gazebo/Blue</material>
+    <turnGravityOff>false</turnGravityOff>
+  </gazebo>
+
   <gazebo reference="top_wheel">
     <material>Gazebo/Black</material>
     <turnGravityOff>false</turnGravityOff>

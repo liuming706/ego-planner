@@ -17,7 +17,7 @@
 #include <ego_planner/DataDisp.h>
 #include <plan_manage/planner_manager.h>
 #include <traj_utils/planning_visualization.h>
-
+#include "plan_manage/trajectory_tracker.hpp"
 using std::vector;
 
 namespace ego_planner {
@@ -93,6 +93,7 @@ private:
     void odometryCallback(const nav_msgs::OdometryConstPtr &msg);
 
     bool checkCollision();
+    std::unique_ptr<TrajectoryTracker> trajectory_tracker_{nullptr};
 
 public:
     EGOReplanFSM(/* args */) {}

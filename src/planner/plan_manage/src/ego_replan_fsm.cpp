@@ -29,6 +29,7 @@ void EGOReplanFSM::init(ros::NodeHandle &nh)
     visualization_.reset(new PlanningVisualization(nh));
     planner_manager_.reset(new EGOPlannerManager);
     planner_manager_->initPlanModules(nh, visualization_);
+    trajectory_tracker_ = std::make_unique<TrajectoryTracker>();
 
     /* callback */
     exec_timer_ =
@@ -52,6 +53,7 @@ void EGOReplanFSM::init(ros::NodeHandle &nh)
         planGlobalTrajbyGivenWps();
     } else
         cout << "Wrong target_type_ value! target_type_=" << target_type_ << endl;
+    trajectory_tracker_->init(nh);
 }
 
 void EGOReplanFSM::planGlobalTrajbyGivenWps()
@@ -154,6 +156,7 @@ void EGOReplanFSM::waypointCallback(const nav_msgs::PathConstPtr &msg)
 
 void EGOReplanFSM::odometryCallback(const nav_msgs::OdometryConstPtr &msg)
 {
+    trajectory_tracker_->setCurrentState(msg);
     odom_pos_(0) = msg->pose.pose.position.x;
     odom_pos_(1) = msg->pose.pose.position.y;
     odom_pos_(2) = msg->pose.pose.position.z;
@@ -428,7 +431,7 @@ bool EGOReplanFSM::callReboundReplan(bool flag_use_poly_init, bool flag_randomPo
         visualization_->displayOptimalList(
             info->position_traj_.get_control_points(), 0);
     }
-
+    trajectory_tracker_->setTrajectory(planner_manager_->local_data_);
     return plan_success;
 }
 

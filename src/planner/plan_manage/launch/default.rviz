@@ -368,6 +368,11 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        hold_box1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         imu_base:
           Alpha: 1
           Show Axes: false
@@ -504,6 +509,8 @@ Visualization Manager:
           Value: false
         camera_rgb_frame_back:
           Value: false
+        hold_box1:
+          Value: true
         imu_base:
           Value: false
         left_bottom_wheel:
@@ -556,6 +563,8 @@ Visualization Manager:
                   {}
                 camera_rgb_frame_back:
                   {}
+              hold_box1:
+                {}
               imu_base:
                 {}
               left_bottom_wheel:
@@ -627,7 +636,7 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: Intensity
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Min Color: 0; 0; 0
@@ -642,7 +651,7 @@ Visualization Manager:
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
+      Value: false
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:

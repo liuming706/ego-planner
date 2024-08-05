@@ -47,14 +47,15 @@ include_directories(
   include SYSTEM ${catkin_INCLUDE_DIRS} ${PROJECT_SOURCE_DIR}/include
   ${EIGEN3_INCLUDE_DIR} ${PCL_INCLUDE_DIRS})
 
-add_executable(ego_planner_node src/ego_planner_node.cpp src/ego_replan_fsm.cpp
-                                src/planner_manager.cpp)
+add_executable(
+  ego_planner_node src/ego_planner_node.cpp src/ego_replan_fsm.cpp
+                   src/trajectory_tracker.cpp src/planner_manager.cpp)
 target_link_libraries(ego_planner_node ${catkin_LIBRARIES})
 add_dependencies(ego_planner_node ${${PROJECT_NAME}_EXPORTED_TARGETS})
 
-add_executable(traj_server src/traj_server.cpp)
-target_link_libraries(traj_server ${catkin_LIBRARIES})
-add_dependencies(traj_server ${${PROJECT_NAME}_EXPORTED_TARGETS})
+# add_executable(traj_server src/traj_server.cpp)
+# target_link_libraries(traj_server ${catkin_LIBRARIES})
+# add_dependencies(traj_server ${${PROJECT_NAME}_EXPORTED_TARGETS})
 
 add_executable(traj_pp_server src/traj_pp_server.cpp)
 target_link_libraries(traj_pp_server ${catkin_LIBRARIES})
