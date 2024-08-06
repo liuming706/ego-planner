@@ -28,8 +28,9 @@ void EGOReplanFSM::init(ros::NodeHandle &nh)
     /* initialize main modules */
     visualization_.reset(new PlanningVisualization(nh));
     planner_manager_.reset(new EGOPlannerManager);
-    planner_manager_->initPlanModules(nh, visualization_);
-    trajectory_tracker_ = std::make_unique<TrajectoryTracker>();
+    grid_map_.reset(new GridMap);
+    planner_manager_->initPlanModules(nh, visualization_, grid_map_);
+    trajectory_tracker_.reset(new TrajectoryTracker);
 
     /* callback */
     exec_timer_ =
@@ -53,7 +54,7 @@ void EGOReplanFSM::init(ros::NodeHandle &nh)
         planGlobalTrajbyGivenWps();
     } else
         cout << "Wrong target_type_ value! target_type_=" << target_type_ << endl;
-    trajectory_tracker_->init(nh);
+    trajectory_tracker_->init(nh, grid_map_);
 }
 
 void EGOReplanFSM::planGlobalTrajbyGivenWps()

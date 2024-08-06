@@ -95,6 +95,7 @@ struct MappingData {
     std::vector<double> occupancy_buffer_;
     // occupancy_buffer_inflate_: 存储局部地图范围内的每个珊格的全局地图珊格索引
     std::vector<char> occupancy_buffer_inflate_;
+    std::vector<char> occupancy_buffer_origin_;
 
     // camera position and pose data
 
@@ -168,6 +169,9 @@ public:
     inline bool isKnownFree(const Eigen::Vector3i &id);
     inline bool isKnownOccupied(const Eigen::Vector3i &id);
 
+    inline int getOriginOccupancy(Eigen::Vector2d pos);
+    inline int getOriginOccupancy(Eigen::Vector3d pos);
+    inline int getInflateOccupancy2d(Eigen::Vector2d pos);
     void initMap(ros::NodeHandle &nh);
 
     void publishMap();
@@ -347,6 +351,39 @@ inline int GridMap::getInflateOccupancy(Eigen::Vector3d pos)
     posToIndex(pos, id);
 
     return int(md_.occupancy_buffer_inflate_[toAddress(id)]);
+}
+
+inline int GridMap::getInflateOccupancy2d(Eigen::Vector2d pos)
+{
+    Eigen::Vector3d pos_3d{pos(0), pos(1), 0.2};
+    if (!isInMap(pos_3d)) return -1;
+
+    Eigen::Vector3i id;
+    posToIndex(pos_3d, id);
+
+    return int(md_.occupancy_buffer_inflate_[toAddress(id)]);
+}
+
+inline int GridMap::getOriginOccupancy(Eigen::Vector3d pos)
+{
+    if (!isInMap(pos)) return -1;
+
+    Eigen::Vector3i id;
+    posToIndex(pos, id);
+    id(2) = 0;
+    return int(md_.occupancy_buffer_origin_[toAddress(id)]);
+}
+
+inline int GridMap::getOriginOccupancy(Eigen::Vector2d pos)
+
+{
+    Eigen::Vector3d pos3d = {pos(0), pos(1), 0};
+    if (!isInMap(pos3d)) return -1;
+
+    Eigen::Vector3i id;
+    posToIndex(pos3d, id);
+    id(2) = 0;
+    return int(md_.occupancy_buffer_origin_[toAddress(id)]);
 }
 
 inline int GridMap::getOccupancy(Eigen::Vector3i id)

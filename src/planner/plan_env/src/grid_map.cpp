@@ -84,6 +84,7 @@ void GridMap::initMap(ros::NodeHandle &nh)
     md_.occupancy_buffer_ =
         vector<double>(buffer_size, mp_.clamp_min_log_ - mp_.unknown_flag_);
     md_.occupancy_buffer_inflate_ = vector<char>(buffer_size, 0);
+    md_.occupancy_buffer_origin_ = vector<char>(buffer_size, 0);
 
     md_.count_hit_and_miss_ = vector<short>(buffer_size, 0);
     md_.count_hit_ = vector<short>(buffer_size, 0);
@@ -181,6 +182,7 @@ void GridMap::resetBuffer(Eigen::Vector3d min_pos, Eigen::Vector3d max_pos)
         for (int y = min_id(1); y <= max_id(1); ++y)
             for (int z = min_id(2); z <= max_id(2); ++z) {
                 md_.occupancy_buffer_inflate_[toAddress(x, y, z)] = 0;
+                md_.occupancy_buffer_origin_[toAddress(x, y, z)] = 0;
             }
 }
 
@@ -750,17 +752,22 @@ void GridMap::cloudCallback(const sensor_msgs::PointCloud2ConstPtr &img)
         /* point inside update range */
         // devi: 世界坐标系下，相机到点的距离向量
         Eigen::Vector3d devi = p3d - md_.camera_pos_;
-        Eigen::Vector3i inf_pt;
+        Eigen::Vector3i index_pt;
         // 距离相机上下前后左右皆在 local_update_range_ 范围内的点为有效点
         if (fabs(devi(0)) < mp_.local_update_range_(0) &&
             fabs(devi(1)) < mp_.local_update_range_(1) &&
             fabs(devi(2)) < mp_.local_update_range_(2)) {
+            // 世界坐标系->全局地图珊格坐标系
+            posToIndex(p3d, index_pt);
+            if (!isInMap(index_pt)) continue;
+            // 全局地图珊格坐标系->一维索引
+            index_pt(2) = 0;
+            md_.occupancy_buffer_origin_[toAddress(index_pt)] = 1;
             // NOTE(lumen): for ground robot
-
             if (ROBOT_TYPE == "ground_robot") {
                 /* inflate the point */
-                // double leg_length = 0.85, arm_length = 0.85;
-                // // 如果点云在机器人身体高度范围内，则z方向珊格进行扩展，撑满整个局部地图
+                double robot_width = 0.6;
+                // 如果点云在机器人身体高度范围内，则z方向珊格进行扩展，撑满整个局部地图
                 for (int x = -inf_step; x <= inf_step; ++x)
                     for (int y = -inf_step; y <= inf_step; ++y)
                         for (int z = -mp_.map_voxel_num_(2);
@@ -777,11 +784,10 @@ void GridMap::cloudCallback(const sensor_msgs::PointCloud2ConstPtr &img)
                             min_y = min(min_y, p3d_inf(1));
                             min_z = min(min_z, p3d_inf(2));
                             // 世界坐标系->全局地图珊格坐标系
-                            posToIndex(p3d_inf, inf_pt);
-                            if (!isInMap(inf_pt)) continue;
+                            posToIndex(p3d_inf, index_pt);
+                            if (!isInMap(index_pt)) continue;
                             // 全局地图珊格坐标系->一维索引
-                            int idx_inf = toAddress(inf_pt);
-                            md_.occupancy_buffer_inflate_[idx_inf] = 1;
+                            md_.occupancy_buffer_inflate_[toAddress(index_pt)] = 1;
                         }
                 // else {
                 //     for (int x = -inf_step; x <= inf_step; ++x)
@@ -825,11 +831,11 @@ void GridMap::cloudCallback(const sensor_msgs::PointCloud2ConstPtr &img)
                             min_y = min(min_y, p3d_inf(1));
                             min_z = min(min_z, p3d_inf(2));
 
-                            posToIndex(p3d_inf, inf_pt);
+                            posToIndex(p3d_inf, index_pt);
 
-                            if (!isInMap(inf_pt)) continue;
+                            if (!isInMap(index_pt)) continue;
 
-                            int idx_inf = toAddress(inf_pt);
+                            int idx_inf = toAddress(index_pt);
 
                             md_.occupancy_buffer_inflate_[idx_inf] = 1;
                         }

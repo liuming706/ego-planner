@@ -41,7 +41,7 @@ private:
     EGOPlannerManager::Ptr planner_manager_;
     PlanningVisualization::Ptr visualization_;
     ego_planner::DataDisp data_disp_;
-
+    std::shared_ptr<GridMap> grid_map_{nullptr};
     /* parameters */
     int target_type_;  // 1 mannual select, 2 hard code
     double no_replan_thresh_, replan_thresh_;

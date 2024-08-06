@@ -44,12 +44,13 @@ public:
                                  const Eigen::Vector3d &end_vel,
                                  const Eigen::Vector3d &end_acc);
 
-    void initPlanModules(ros::NodeHandle &nh, PlanningVisualization::Ptr vis = NULL);
+    void initPlanModules(ros::NodeHandle &nh, PlanningVisualization::Ptr vis,
+                         const std::shared_ptr<GridMap> &grid_map);
 
     PlanParameters pp_;
     LocalTrajData local_data_;
     GlobalTrajData global_data_;
-    GridMap::Ptr grid_map_;
+    std::shared_ptr<GridMap> grid_map_{nullptr};
 
 private:
     /* main planning algorithms & modules */

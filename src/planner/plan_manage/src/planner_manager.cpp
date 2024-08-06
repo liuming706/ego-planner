@@ -14,7 +14,8 @@ EGOPlannerManager::~EGOPlannerManager()
 }
 
 void EGOPlannerManager::initPlanModules(ros::NodeHandle &nh,
-                                        PlanningVisualization::Ptr vis)
+                                        PlanningVisualization::Ptr vis,
+                                        const std::shared_ptr<GridMap> &grid_map)
 {
     /* read algorithm parameters */
 
@@ -26,7 +27,7 @@ void EGOPlannerManager::initPlanModules(ros::NodeHandle &nh,
     nh.param("manager/planning_horizon", pp_.planning_horizen_, 5.0);
 
     local_data_.traj_id_ = 0;
-    grid_map_.reset(new GridMap);
+    grid_map_ = grid_map;
     grid_map_->initMap(nh);
 
     bspline_optimizer_rebound_.reset(new BsplineOptimizer);
